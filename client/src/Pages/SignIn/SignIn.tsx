@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import Form from "../../Components/Form/Form";
 
 const SignIn = () => {
   return (
-    <div>SignIn</div>
-  )
-}
+    <div className="flex flex-row justify-center items-center">
+      <Form />
+    </div>
+  );
+};
 
-export default SignIn
+export default SignIn;

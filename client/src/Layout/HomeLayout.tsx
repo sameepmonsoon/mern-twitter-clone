@@ -1,9 +1,12 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import LeftSider from "../Page Components/LeftSider/LeftSider";
+import Navbar from "../Components/Navbar/Navbar";
 const HomeLayout = () => {
   return (
-    <div>
-      <div className="navbar h-20 w-screen bg-red-400">Navbar</div>
+    <div className="">
+      <Navbar title={"Home"} />
+
       <Outlet />
     </div>
   );

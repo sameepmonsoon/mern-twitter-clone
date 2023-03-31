@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomeLayout from "./Layout/HomeLayout";
+import ProfileLayout from "./Layout/ProfileLayout";
+import Error from "./Pages/Error/Error";
 import Explore from "./Pages/Explore/Explore";
 import Home from "./Pages/Home/Home";
 import Profile from "./Pages/Profile/Profile";
@@ -12,10 +14,7 @@ function App() {
       element: <HomeLayout />,
       children: [
         { path: "/", element: <Home /> },
-        {
-          path: "/profile/:id",
-          element: <Profile />,
-        },
+
         {
           path: "/explore",
           element: <Explore />,
@@ -28,8 +27,13 @@ function App() {
           path: "/signout",
           element: <SignIn />,
         },
+        {
+          path: "*",
+          element: <Error />,
+        },
       ],
     },
+    { path: "/profile/:id", element: <ProfileLayout /> },
   ]);
   return <RouterProvider router={router}></RouterProvider>;
 }
