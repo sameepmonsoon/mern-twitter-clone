@@ -51,7 +51,9 @@ const ProfileBox = (props: {
               Following
             </button>
           ) : (
-            <button className="bg-blue-400 rounded-full px-4 py-2 text-white ml-auto">
+            <button
+              className="bg-blue-400 rounded-full px-4 py-2 text-white ml-auto"
+              onClick={handleFollow}>
               Follow
             </button>
           )}

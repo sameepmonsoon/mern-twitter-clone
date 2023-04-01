@@ -22,10 +22,9 @@ const MainTweet = () => {
   };
   return (
     <form className="main-tweet-div flex flex-col justify-start items-center h-[14rem] gap-10  w-full pb-4 border-b-[1px] border-b-slate-200">
-      <div className="flex flex-row items-start h-full w-full justify-start gap-x-10 px-3">
+      <div className="flex flex-row items-start h-full w-full justify-start gap-x-5 px-3 ">
         {/* <img src="" alt="image" /> */}
         <FaRegUserCircle size={40} />
-        {currentUser.username}
         <textarea
           typeof="text"
           maxLength={200}
@@ -34,7 +33,7 @@ const MainTweet = () => {
           }}
           name="description"
           placeholder="Whats Happening?"
-          className="w-full h-full resize-none bg-slate-100 rounded-lg p-2"></textarea>
+          className="w-full h-full resize-none text-[20px] bg-transparent rounded-lg p-2 focus:ring-blue-400 focus:ring-1 outline-none"></textarea>
       </div>
       <div className="flex-2 flex flex-row justify-between px-10 items-center w-full">
         <div></div>

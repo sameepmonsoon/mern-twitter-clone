@@ -14,35 +14,35 @@ const LeftSider = () => {
   };
   const { currentUser } = useSelector((state: any) => state.user);
   return (
-    <div className="h-full md:h-[90vh] flex flex-col justify-between  m-auto mr-6">
-      <div className="mt-6 flex flex-col space-y-4 justify-center">
+    <div className="hidden h-full md:h-[90vh] md:flex flex-col justify-between  m-auto mr-6">
+      <div className="mt-6 flex flex-col space-y-4 justify-center md:items-end lg:items-start">
         <Link to={"/"}>
           <span
-            className={`flex flex-row justify-start items-center gap-x-3 px-3 py-3 hover:bg-slate-200 rounded-full cursor-pointer ${
+            className={`flex flex-row justify-start md:justify-end lg:justify-start  items-center gap-x-3 px-4 py-3  hover:bg-black/10 rounded-full cursor-pointer ${
               location.pathname === "/" && "font-[600] text-black/100"
             }  text-xl font-[400] text-black/70`}>
             <RiHome7Fill size={25} />
-            <span className="hidden md:flex">Home</span>
+            <span className="hidden md:hidden lg:flex ">Home</span>
           </span>
         </Link>
         <Link to={"/explore"}>
           <span
-            className={`flex flex-row justify-start items-center gap-x-3 px-3 py-3 hover:bg-slate-200 rounded-full cursor-pointer ${
+            className={`flex flex-row justify-start md:justify-end lg:justify-start items-center gap-x-3 px-4 py-3 hover:bg-slate-200 rounded-full cursor-pointer ${
               location.pathname.includes("/explore") &&
               " font-[600] text-black/100"
             }  text-xl font-[400] text-black/70`}>
             <FaHashtag size={25} />
-            <span className="hidden md:flex">Explore</span>
+            <span className="hidden md:hidden lg:flex">Explore</span>
           </span>
         </Link>
         <Link to={`/profile/${currentUser._id}`}>
           <span
-            className={`flex flex-row justify-start items-center gap-x-3 px-3 py-3 hover:bg-slate-200 rounded-full cursor-pointer ${
+            className={`flex flex-row justify-start md:justify-end lg:justify-start items-center gap-x-3 px-4 py-3 hover:bg-slate-200 rounded-full cursor-pointer ${
               location.pathname.includes("/profile/") &&
               " font-[600] text-black/100"
             }  text-xl font-[400] text-black/70`}>
             <FaUser size={25} />
-            <span className=" hidden md:flex">Profile</span>
+            <span className="hidden md:hidden lg:flex">Profile</span>
           </span>
         </Link>
       </div>

@@ -10,8 +10,9 @@ const TweetContainer = (props: {
   tweet: any;
   editTweet: Dispatch<SetStateAction<never[]>>;
   image?: string;
+  profileImage?: string;
 }) => {
-  const { idNumber, tweet, editTweet, image } = props;
+  const { idNumber, tweet, editTweet, image, profileImage } = props;
   const [tweetData, setTweetData] = useState([]);
   const { currentUser } = useSelector((state: any) => state.user);
   const [userData, setUserData] = useState<any>([]);
@@ -49,11 +50,15 @@ const TweetContainer = (props: {
   return (
     <div
       key={idNumber}
-      className="flex flex-row min-h-[10rem] h-auto w-full py-3 px-2 gap-x-3 border-b-[1px] border-b-slate-200 justify-start items-start">
-      <div className="tweet-owner min-h-[10rem] h-auto flex flex-col justify-start items-center min-w-[5.5rem] overflow-hidden">
+      className="cursor-pointer flex flex-row min-h-[7rem] h-auto  w-full py-2 px-2 gap-x-3 border-b-[1px] border-b-slate-200 justify-start items-start">
+      <div className="tweet-owner min-h-[5rem] h-auto flex flex-col justify-start items-center min-w-[5.5rem] overflow-hidden">
         <Link
           to={`/profile/${userData._id}`}
-          className={`w-full h-20 rounded-full bg-[url("../../../public/vite.svg")] bg-no-repeat bg-contain bg-center`}
+          className={`w-full h-20 rounded-full`}
+          style={{
+            backgroundImage: `url(${profileImage})`,
+            backgroundSize: "cover",
+          }}
         />
       </div>
       <div className="tweet-body flex flex-col gap-y-3">
@@ -73,15 +78,28 @@ const TweetContainer = (props: {
           </p>
         )}
 
-        <p className="reaction-container w-full h-10 flex flex-row justify-start items-center px-2 gap-2">
-          <button className="font-bold text-black" onClick={handleLike}>
+        <p
+          className={`group w-[30%] h-10 flex flex-row justify-start items-center px-2 gap-2.5 relative `}>
+          <div className="absolute left-[1px] top-[3px] group-hover:bg-red-200 w-8 h-8 rounded-full ">
+            &nbsp;
+          </div>
+          <button
+            className="font-bold text-black/70 group-hover:text-red-400 z-10"
+            onClick={handleLike}>
             {tweet != undefined && tweet.likes.includes(currentUser._id) ? (
-              <IoMdHeart size={25} />
+              <IoMdHeart size={18} className="text-red-500" />
             ) : (
-              <IoMdHeartEmpty size={25} />
+              <IoMdHeartEmpty size={18} />
             )}
           </button>
-          <span>{tweet != undefined && tweet.likes.length}</span>
+          <span
+            className={`${
+              tweet.likes.length &&
+              tweet.likes.includes(currentUser._id) &&
+              "text-red-500"
+            } group-hover:text-red-500 text-[15px]`}>
+            {tweet != undefined && tweet.likes.length}
+          </span>
         </p>
       </div>
     </div>

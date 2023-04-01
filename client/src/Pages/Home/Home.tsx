@@ -17,11 +17,11 @@ const Home = () => {
           <div className="ml-auto">
             <LeftSider />
           </div>
-          <div className="py-10 col-span-2 flex flex-col border-x-[1px] border-slate-200 border-t-[1px] border-t-slate-200 ">
+          <div className="py-10 col-span-2 flex flex-col border-x-[1px] border-slate-200 border-t-[1px] border-t-slate-200 min-w-[55vh]">
             <MainTweet />
             <TimelineTweet />
           </div>
-          <div className="px-6">
+          <div className="px-6 hidden lg:block">
             <RightSider />
           </div>
         </div>
