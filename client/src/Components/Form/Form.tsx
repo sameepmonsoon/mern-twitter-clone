@@ -31,10 +31,21 @@ const Form = () => {
       dispatch(login());
       isSignIn
         ? HTTPMethods.post("/auth/signup", values)
+            .then((res) => {
+              console.log("token received from the server", res.data.token);
+              localStorage.setItem("token", res.data.token);
+              dispatch(loginSuccess(res.data));
+              navigate("/");
+              setIsSignIn(false);
+            })
+            .catch((err) => {
+              console.log(err);
+              dispatch(loginFailure());
+            })
         : HTTPMethods.post("/auth/signin", values)
             .then((res) => {
-              console.log(res.data);
-
+              console.log("token received from the server", res.data.token);
+              localStorage.setItem("token", res.data.token);
               dispatch(loginSuccess(res.data));
               navigate("/");
               setIsSignIn(false);

@@ -16,10 +16,13 @@ export const signup = async (req, res, next) => {
     const { password, ...othersData } = newUser._doc;
     res
       .cookie("access_token", token, {
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
         httpOnly: true,
+        sameSite: "strict",
       })
+
       .status(200)
-      .json(othersData);
+      .json({ token: token, ...othersData });
   } catch (err) {
     next(err);
   }
@@ -39,9 +42,14 @@ export const signin = async (req, res, next) => {
     const { password, ...othersData } = user._doc;
 
     res
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token, {
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
+        httpOnly: true,
+        sameSite: "strict",
+      })
+
       .status(200)
-      .json(othersData);
+      .json({ token: token, ...othersData });
   } catch (err) {
     next(err);
   }

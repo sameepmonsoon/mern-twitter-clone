@@ -1,7 +1,7 @@
 import React from "react";
 import { RiHome7Fill, FaHashtag, FaUser } from "react-icons/all";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../Redux Store/userSlice";
 const LeftSider = () => {
   const dispatch = useDispatch();
@@ -12,6 +12,7 @@ const LeftSider = () => {
       navigate("/signin");
     }, 200);
   };
+  const { currentUser } = useSelector((state: any) => state.user);
   return (
     <div className="h-full md:h-[90vh] flex flex-col justify-between  m-auto mr-6">
       <div className="mt-6 flex flex-col space-y-4 justify-center">
@@ -34,7 +35,7 @@ const LeftSider = () => {
             <span className="hidden md:flex">Explore</span>
           </span>
         </Link>
-        <Link to={"/profile/:"}>
+        <Link to={`/profile/${currentUser._id}`}>
           <span
             className={`flex flex-row justify-start items-center gap-x-3 px-3 py-3 hover:bg-slate-200 rounded-full cursor-pointer ${
               location.pathname.includes("/profile/") &&

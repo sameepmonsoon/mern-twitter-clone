@@ -4,10 +4,11 @@ import image from "../../../public/vite.svg";
 import { useSelector } from "react-redux";
 import { HTTPMethods } from "../../Utils/HTTPMethods";
 import { Link, useLocation, useParams } from "react-router-dom";
+import formatDistance from "date-fns/formatDistance";
 const TweetContainer = (props: {
-  idNumber?: number;
-  tweet?: any;
-  editTweet?: Dispatch<SetStateAction<never[]>>;
+  idNumber: number;
+  tweet: any;
+  editTweet: Dispatch<SetStateAction<never[]>>;
   image?: string;
 }) => {
   const { idNumber, tweet, editTweet, image } = props;
@@ -15,13 +16,13 @@ const TweetContainer = (props: {
   const { currentUser } = useSelector((state: any) => state.user);
   const [userData, setUserData] = useState<any>([]);
   const { id } = useParams();
-  console.log("the tweet from the timeline", tweet);
+  const datePosted = formatDistance(new Date(), new Date(tweet.createdAt));
   useEffect(() => {
     tweet != undefined &&
       HTTPMethods.get(`/users/find/${tweet.userId}`).then((res) => {
         setUserData(res.data);
       });
-  }, []);
+  }, [tweet.userId]);
   const handleLike = async (e: any) => {
     e.preventDefault();
     await HTTPMethods.put(`/tweets/${tweet._id}/like`, {
@@ -31,22 +32,24 @@ const TweetContainer = (props: {
       if (location.pathname.includes("profile")) {
         const newData = HTTPMethods.get(`/tweets/user/all/${id}`);
         //@ts-ignore
-        editTweet(newData);
+        editTweet(newData).data;
       } else if (location.pathname.includes("explore")) {
         const newData = HTTPMethods.get(`/tweets/explore`);
         //@ts-ignore
-        editTweet(newData);
+        editTweet(newData.data);
       } else {
         const newData = HTTPMethods.get(`/tweets/timeline/${currentUser._id}`);
         //@ts-ignore
-        editTweet(newData);
+        editTweet(newData.data);
+        //@ts-ignore
+        console.log("leorerieeirjeij", newData);
       }
     });
   };
   return (
     <div
       key={idNumber}
-      className="flex flex-row min-h-[10rem] h-auto w-full py-3 px-2 gap-x-3 border-y-[1px] border-y-slate-200 justify-start items-start">
+      className="flex flex-row min-h-[10rem] h-auto w-full py-3 px-2 gap-x-3 border-b-[1px] border-b-slate-200 justify-start items-start">
       <div className="tweet-owner min-h-[10rem] h-auto flex flex-col justify-start items-center min-w-[5.5rem] overflow-hidden">
         <Link
           to={`/profile/${userData._id}`}
@@ -54,9 +57,10 @@ const TweetContainer = (props: {
         />
       </div>
       <div className="tweet-body flex flex-col gap-y-3">
-        <p className="flex flex-row justify-start items-center">
-          {userData.username} <span>@{userData.username}</span>
-          <span></span>
+        <p className="flex flex-row justify-start items-center gap-1">
+          <span className="font-[500]"> {userData.username}</span>
+          <span className="text-black/70">@{userData.username}</span>
+          <span className="text-black/70 "> {datePosted}</span>
         </p>
         <p className="tweetdescription pr-10 ">
           {tweet != undefined && tweet.description}

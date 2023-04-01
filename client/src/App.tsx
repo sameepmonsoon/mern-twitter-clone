@@ -7,7 +7,19 @@ import Explore from "./Pages/Explore/Explore";
 import Home from "./Pages/Home/Home";
 import Profile from "./Pages/Profile/Profile";
 import SignIn from "./Pages/SignIn/SignIn";
+import { renderToString } from "react-dom/server";
+import { BsTwitter } from "react-icons/bs";
+import { Helmet } from "react-helmet";
+
 function App() {
+  const StyledCartIcon = () => (
+    <BsTwitter size={25} style={{ color: "#2CBCE9" }} />
+  );
+
+  // Convert the styled icon to a base64 string
+  const cartIconString = renderToString(<StyledCartIcon />);
+  const cartIconBase64 = btoa(cartIconString);
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -35,7 +47,20 @@ function App() {
     },
     { path: "/profile/:id", element: <ProfileLayout /> },
   ]);
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+    <>
+      <Helmet>
+        <title>Zwitter</title>
+        <link
+          rel="icon"
+          type="image/svg+xml"
+          href={`data:image/svg+xml;base64,${cartIconBase64}`}
+        />
+        <meta name="description" content="This is a description" />
+      </Helmet>
+      <RouterProvider router={router}></RouterProvider>
+    </>
+  );
 }
 
 export default App;

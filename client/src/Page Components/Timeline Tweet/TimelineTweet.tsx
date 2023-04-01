@@ -20,8 +20,7 @@ const TimelineTweet = () => {
   }, [currentUser._id]);
   return (
     <div>
-      <TweetContainer />
-      {timeLine != null &&
+      {timeLine != undefined &&
         timeLine.map((tweet: { _id: number }, index) => {
           return (
             <div key={index}>
