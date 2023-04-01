@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { HTTPMethods } from "../../Utils/HTTPMethods";
 import Modal from "../Modal/Modal";
-
+import { following } from "../../Redux Store/userSlice";
 const ProfileBox = (props: {
   name: string;
   coverPhoto?: string;
@@ -14,6 +15,18 @@ const ProfileBox = (props: {
   const { currentUser } = useSelector((state: any) => state.user);
   const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const handleFollow = async () => {
+    if (!currentUser.following.includes(id)) {
+      await HTTPMethods.put(`/users/follow/${id}`, {
+        id: currentUser._id,
+      }).then((res) => dispatch(following(res.data)));
+    } else {
+      await HTTPMethods.put(`/users/unfollow/${id}`, {
+        id: currentUser._id,
+      }).then((res) => dispatch(following(res.data)));
+    }
+  };
   return (
     <div className=" h-[30rem] w-full flex flex-col justify-start items-center">
       <div className="cover-photo w-full h-[40%]  bg-center bg-no-repeat bg-contain flex flex-row">
@@ -21,8 +34,9 @@ const ProfileBox = (props: {
       </div>
       <div className="profile-details w-full relative flex flex-col gap-y-5 border-y-[1px] border-y-slate-200 pb-4">
         <p className="profile-pic flex flex-row justify-between px-10 py-4 items-center w-full">
-          <span className="absolute top-[-35px] rounded-full w-[5rem] h-[5rem] bg-center bg-no-repeat bg-contain">
-            <FaUserCircle size={75} />
+          <span
+            className={`absolute overflow-hidden top-[-80px] left-[20px] rounded-full w-[10rem] h-[10rem]  shadow-[1px_1px_5px_0px_grey,-1px_-1px_5px_0px_grey]  border-black/20 flex justify-center items-center`}>
+            <img src={profilePhoto} className="rounded-full w-[95%] h-[94%]" />
           </span>
           {currentUser._id === id ? (
             <button
@@ -31,7 +45,9 @@ const ProfileBox = (props: {
               Edit Profile
             </button>
           ) : currentUser.following.includes(id) ? (
-            <button className="bg-blue-400 rounded-full px-4 py-2 text-white ml-auto">
+            <button
+              className="bg-blue-400 rounded-full px-4 py-2 text-white ml-auto"
+              onClick={handleFollow}>
               Following
             </button>
           ) : (

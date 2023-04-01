@@ -23,9 +23,41 @@ export const userSlicer = createSlice({
     logout: (state) => {
       return initialState;
     },
+    changeProfile: (state, action) => {
+      // @ts-ignore
+      state.currentUser.profilePicture = action.payload;
+    },
+
+    // ????
+    following: (state, action) => {
+      // @ts-ignore
+
+      if (state.currentUser.following.includes(action.payload)) {
+        // @ts-ignore
+
+        state.currentUser.following.splice(
+          // @ts-ignore
+
+          state.currentUser.following.findIndex((followingId) => {
+            followingId === action.payload;
+          })
+        );
+      } else {
+        // @ts-ignore
+
+        state.currentUser.following.push(action.payload);
+      }
+    },
   },
 });
 
-export const { login, loginSuccess, loginFailure, logout } = userSlicer.actions;
+export const {
+  login,
+  loginSuccess,
+  loginFailure,
+  logout,
+  changeProfile,
+  following,
+} = userSlicer.actions;
 
 export default userSlicer.reducer;

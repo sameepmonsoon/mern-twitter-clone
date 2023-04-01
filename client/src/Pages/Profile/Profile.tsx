@@ -11,11 +11,20 @@ import TweetContainer from "../../Components/TweetContainer/TweetContainer";
 const Profile = () => {
   const { currentUser } = useSelector((state: any) => state.user);
   const [userTweet, setUserTweet] = useState([]);
+  const [userProfile, setUserProfile] = useState([]);
   const { id } = useParams();
   useEffect(() => {
     HTTPMethods.get(`/tweets/user/all/${id}`)
       .then((res) => {
         setUserTweet(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    HTTPMethods.get(`/users/find/${id}`)
+      .then((res) => {
+        setUserProfile(res.data);
         console.log(res.data);
       })
       .catch((err) => {
@@ -30,6 +39,8 @@ const Profile = () => {
           <ProfileBox
             name={currentUser.username}
             profileDescription={"afdsf"}
+            // @ts-ignore
+            profilePhoto={userProfile?.profilePicture}
           />
           {userTweet != undefined &&
             userTweet.map((profileTweet, index) => {
