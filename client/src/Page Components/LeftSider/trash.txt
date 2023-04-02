@@ -1,0 +1,52 @@
+<div
+              className={`h-full md:h-[90vh] md:flex flex-col justify-betweenm-auto mr-6 relative  bg-white w-full`}>
+              <div className="hidden mt-6 flex flex-col space-y-4 justify-center md:items-end lg:items-start">
+                <Link to={"/"}>
+                  <span
+                    className={` flex flex-row justify-start md:justify-end lg:justify-start  items-center gap-x-3 px-4 py-3  hover:bg-black/10 rounded-full cursor-pointer ${
+                      location.pathname === "/" && "font-[600] text-black/100"
+                    }  text-xl font-[400] text-black/70`}>
+                    <RiHome7Fill size={25} />
+                    <span className=" md:hidden lg:flex ">Home</span>
+                  </span>
+                </Link>
+                <Link to={"/explore"}>
+                  <span
+                    className={`flex flex-row justify-start md:justify-end lg:justify-start items-center gap-x-3 px-4 py-3 hover:bg-slate-200 rounded-full cursor-pointer ${
+                      location.pathname.includes("/explore") &&
+                      " font-[600] text-black/100"
+                    }  text-xl font-[400] text-black/70`}>
+                    <FaHashtag size={25} />
+                    <span className="md:hidden lg:flex">Explore</span>
+                  </span>
+                </Link>
+                <Link to={`/profile/${currentUser._id}`}>
+                  <span
+                    className={`flex flex-row justify-start md:justify-end lg:justify-start items-center gap-x-3 px-4 py-3 hover:bg-slate-200 rounded-full cursor-pointer ${
+                      location.pathname.includes("/profile/") &&
+                      " font-[600] text-black/100"
+                    }  text-xl font-[400] text-black/70`}>
+                    <FaUser size={25} />
+                    <span className="md:hidden lg:flex">Profile</span>
+                  </span>
+                </Link>
+              </div>
+              <div className="login flex md:flex-row flex-col justify-between items-center gap-1 w-[14rem] absolute bottom-2 md:bottom-[-5px] left-[-25px] md:left-[-5rem] hover:bg-black/10 py-1.5 px-4 rounded-full">
+                <img
+                  src={currentUser.profilePicture}
+                  alt=""
+                  className="hidden md:block w-10 h-10 rounded-full"
+                />
+                <div className="username hidden md:flex flex-col justify-center items-center">
+                  <span className="font-bold">{currentUser.username}</span>
+                  <span className="text-black/60">@{currentUser.username}</span>
+                </div>
+                <div>
+                  <button
+                    className="rounded-full px-4 py-2 text-white bg-blue-400"
+                    onClick={handleLogout}>
+                    Logout
+                  </button>
+                </div>
+              </div>
+            </div>

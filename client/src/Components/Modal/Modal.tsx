@@ -64,12 +64,16 @@ const Modal = (props: { setOpen: Dispatch<SetStateAction<any>> }) => {
       },
       () => {
         // Upload completed successfully, now we can get the download URL
-        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          HTTPMethods.put(`/users/${currentUser._id}`, {
-            profilePicture: downloadURL,
-          }).then((res) => {});
-          dispatch(changeProfile(downloadURL));
-        });
+        getDownloadURL(uploadTask.snapshot.ref)
+          .then(async (downloadURL) => {
+            HTTPMethods.put(`/users/${currentUser._id}`, {
+              profilePicture: downloadURL,
+            }).then((res) => {});
+            dispatch(changeProfile(downloadURL));
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     );
   };
@@ -89,7 +93,7 @@ const Modal = (props: { setOpen: Dispatch<SetStateAction<any>> }) => {
       });
   };
   return (
-    <div className="absolute w-full h-full bg-black/20 flex items-center justify-center ">
+    <div className="absolute w-full h-full bg-black/20 flex items-center justify-center z-11 top-0">
       <div className="absolute w-[600px] h-[650px] bg-white rounded-xl flex flex-col gap-2 justify-start items-center overflow-hidden py-2 px-[2px]">
         <p className="w-full h-10 flex justify-between items-center px-2">
           <span className="w-[30%] h-full flex justify-between items-center">
@@ -100,7 +104,13 @@ const Modal = (props: { setOpen: Dispatch<SetStateAction<any>> }) => {
             </button>
             <span className="font-[500] text-xl">Edit Profile</span>
           </span>
-          <button className="rounded-full w-[4rem] bg-black text-white py-1 font-[400] hover:bg-black/90">
+          <button
+            className="rounded-full w-[4rem] bg-black text-white py-1 font-[400] hover:bg-black/90 hover:opacity-90"
+            onClick={() => {
+              setTimeout(() => {
+                setOpen(false);
+              }, 500);
+            }}>
             Save
           </button>
         </p>
@@ -109,30 +119,44 @@ const Modal = (props: { setOpen: Dispatch<SetStateAction<any>> }) => {
           <span className="bg-black/50 text-white p-2 rounded-full hover:opacity-[0.91] cursor-pointer">
             <TbCameraPlus size={25} />
           </span>
-          <span className="absolute left-4 bottom-[-4.6rem] rounded-full w-[120px] bg-red-200 h-[120px] border-4 border-white flex items-center justify-center">
-            {imgUploadProgress > 0 ? (
-              "Uploading" + imgUploadProgress + "%"
-            ) : (
-              <label htmlFor="imageUpload" className="absolute">
+          <label
+            htmlFor="imageUpload"
+            className="absolute left-[1rem] bottom-[2.5rem] mb-[2.5rem] cursor-pointer">
+            <span
+              className={`absolute rounded-full w-[120px] bg-red-200 h-[120px] border-4 border-white flex items-center justify-center`}>
+              <>
+                <img
+                  src={currentUser.profilePicture}
+                  alt=""
+                  className="absolute rounded-full h-full w-full"
+                />
                 <input
                   type="file"
                   id="imageUpload"
                   accept="image/*"
                   // @ts-ignore
                   onChange={(e) => setImg(e.target.files[0])}
-                  className="absolute h-full w-full bg-transparent z-[-1]"
+                  className="absolute h-[120px] w-[120px] z-[-1] bg-red-600 top-[20rem]"
                 />
+                {/* profile picture */}
                 <span
-                  className={`bg-black/50 text-white p-2 rounded-full hover:opacity-[0.91] cursor-pointer absolute top-[-1.2rem] left-[-1.2rem] bg-[url()]`}>
-                  <TbCameraPlus size={25} />
+                  className={` bg-black/50 text-white p-2 rounded-full hover:opacity-[0.91]  cursor-pointer absolute top-[2.2rem] left-[2.3rem] flex items-center justify-center `}>
+                  {imgUploadProgress > 0 ? (
+                    <span className="absolute text-white bg-gray-400 left-[-45px] top-0 rounded-full p-2">
+                      {" "}
+                      {"Uploading" + imgUploadProgress + "%"}
+                    </span>
+                  ) : (
+                    <TbCameraPlus size={25} />
+                  )}
                 </span>
-              </label>
-            )}
-          </span>
+              </>
+            </span>{" "}
+          </label>
         </p>
-        <p className="relative top-20 w-full h-auto min-h-[20rem]">
+        <p className="relative w-full h-auto min-h-[20rem] flex justify-end items-start px-2.5">
           <button
-            className="rounded-full w-auto max-w-[7rem] px-5 bg-black text-white py-[7px] font-[400] hover:opacity-[0.95]"
+            className="rounded-full hover:opacity-90 w-auto max-w-[7rem] px-5 bg-black text-white py-[7px] font-[400]"
             onClick={handleClick}>
             Delete
           </button>

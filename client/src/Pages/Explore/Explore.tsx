@@ -34,6 +34,7 @@ const Explore = () => {
                 return (
                   <div key={index}>
                     <TweetContainer
+                      profileImage={currentUser.profilePicture}
                       idNumber={index}
                       tweet={explore}
                       editTweet={setExploreTweet}

@@ -13,18 +13,26 @@ const ProfileBox = (props: {
 }) => {
   const { name, coverPhoto, profilePhoto, profileDescription } = props;
   const { currentUser } = useSelector((state: any) => state.user);
+  const { followingId } = useSelector((state: any) => state.user);
   const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
-  const handleFollow = async () => {
+  console.log(currentUser.following, id, followingId);
+  const handleFollow = () => {
     if (!currentUser.following.includes(id)) {
-      await HTTPMethods.put(`/users/follow/${id}`, {
+      HTTPMethods.put(`/users/follow/${id}`, {
         id: currentUser._id,
-      }).then((res) => dispatch(following(res.data)));
-    } else {
-      await HTTPMethods.put(`/users/unfollow/${id}`, {
+      }).then((res) => {
+        dispatch(following(res.data));
+        console.log(res.data);
+      });
+    } else if (currentUser.following.includes(id)) {
+      HTTPMethods.put(`/users/unfollow/${id}`, {
         id: currentUser._id,
-      }).then((res) => dispatch(following(res.data)));
+      }).then((res) => {
+        dispatch(following(res.data));
+        console.log("res", res.data);
+      });
     }
   };
   return (
@@ -32,30 +40,32 @@ const ProfileBox = (props: {
       <div className="cover-photo w-full h-[40%]  bg-center bg-no-repeat bg-contain flex flex-row">
         Cover Photo
       </div>
-      <div className="profile-details w-full relative flex flex-col gap-y-5 border-y-[1px] border-y-slate-200 pb-4">
+      <div className="profile-details w-full relative flex flex-col gap-y-2 border-y-[1px] border-y-slate-200 pb-4">
         <p className="profile-pic flex flex-row justify-between px-10 py-4 items-center w-full">
           <span
-            className={`absolute overflow-hidden top-[-80px] left-[20px] rounded-full w-[10rem] h-[10rem]  shadow-[1px_1px_5px_0px_grey,-1px_-1px_5px_0px_grey]  border-black/20 flex justify-center items-center`}>
-            <img src={profilePhoto} className="rounded-full w-[95%] h-[94%]" />
+            className={`absolute overflow-hidden top-[-80px] left-[20px] rounded-full w-[8rem] h-[8rem]  shadow-[1px_1px_5px_0px_grey,-1px_-1px_5px_0px_grey]  border-black/20 flex justify-center items-center`}>
+            <img src={profilePhoto} className="rounded-full w-[92%] h-[92%]" />
           </span>
-          {currentUser._id === id ? (
+          {currentUser != undefined && currentUser._id === id ? (
             <button
               className="bg-blue-400 rounded-full px-4 py-2 text-white ml-auto"
               onClick={() => setIsOpen(true)}>
               Edit Profile
             </button>
-          ) : currentUser.following.includes(id) ? (
+          ) : currentUser != undefined && currentUser.following.includes(id) ? (
             <button
               className="bg-blue-400 rounded-full px-4 py-2 text-white ml-auto"
               onClick={handleFollow}>
               Following
             </button>
-          ) : (
+          ) : !currentUser.following.includes(id) ? (
             <button
               className="bg-blue-400 rounded-full px-4 py-2 text-white ml-auto"
               onClick={handleFollow}>
               Follow
             </button>
+          ) : (
+            ""
           )}
         </p>
         <p className="flex flex-col pl-10">

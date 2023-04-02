@@ -21,10 +21,13 @@ const MainTweet = () => {
       });
   };
   return (
-    <form className="main-tweet-div flex flex-col justify-start items-center h-[14rem] gap-10  w-full pb-4 border-b-[1px] border-b-slate-200">
-      <div className="flex flex-row items-start h-full w-full justify-start gap-x-5 px-3 ">
-        {/* <img src="" alt="image" /> */}
-        <FaRegUserCircle size={40} />
+    <form className="main-tweet-div flex flex-col justify-start items-start h-[8rem] w-full pb-4 border-b-[1px] border-b-slate-200">
+      <div className="flex flex-row items-start h-full w-full justify-start gap-x-2 px-3">
+        <img
+          src={currentUser.profilePicture}
+          alt="image"
+          className={`w-[3rem] h-[3rem] rounded-full mt-1`}
+        />
         <textarea
           typeof="text"
           maxLength={200}
@@ -33,7 +36,8 @@ const MainTweet = () => {
           }}
           name="description"
           placeholder="Whats Happening?"
-          className="w-full h-full resize-none text-[20px] bg-transparent rounded-lg p-2 focus:ring-blue-400 focus:ring-1 outline-none"></textarea>
+          //   className="w-full h-full resize-none text-[20px] bg-transparent rounded-lg p-2 focus:ring-blue-400 focus:ring-1 outline-none"
+          className="w-full h-full resize-none text-[20px] bg-transparent rounded-lg p-2 outline-none"></textarea>
       </div>
       <div className="flex-2 flex flex-row justify-between px-10 items-center w-full">
         <div></div>

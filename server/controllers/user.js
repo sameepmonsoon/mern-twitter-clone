@@ -82,7 +82,7 @@ export const unFollow = async (req, res, next) => {
         $pull: { followers: req.body.id },
       });
 
-      await currentUser.updateOne({ $pull: { following: req.params.id } });
+      await currentUser.updateOne({ $pull: { following: req.body.id } });
     } else {
       res.status(403).json("you are not following this user");
     }

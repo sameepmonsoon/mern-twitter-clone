@@ -1,5 +1,9 @@
-import { useState } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useState, createContext, useEffect } from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useLocation,
+} from "react-router-dom";
 import HomeLayout from "./Layout/HomeLayout";
 import ProfileLayout from "./Layout/ProfileLayout";
 import Error from "./Pages/Error/Error";
@@ -10,8 +14,14 @@ import SignIn from "./Pages/SignIn/SignIn";
 import { renderToString } from "react-dom/server";
 import { BsTwitter } from "react-icons/bs";
 import { Helmet } from "react-helmet";
+export const MyContext = createContext<any>("default");
 
 function App() {
+  const [siderState, setSiderState] = useState(false);
+  useEffect(() => {
+    console.clear(); // clears console on mount
+  }, []);
+
   const StyledCartIcon = () => (
     <BsTwitter size={25} style={{ color: "#2CBCE9" }} />
   );
@@ -47,19 +57,22 @@ function App() {
     },
     { path: "/profile/:id", element: <ProfileLayout /> },
   ]);
+
   return (
-    <>
-      <Helmet>
-        <title>Zwitter</title>
-        <link
-          rel="icon"
-          type="image/svg+xml"
-          href={`data:image/svg+xml;base64,${cartIconBase64}`}
-        />
-        <meta name="description" content="This is a description" />
-      </Helmet>
-      <RouterProvider router={router}></RouterProvider>
-    </>
+    <div>
+      <MyContext.Provider value={{ siderState, setSiderState }}>
+        <Helmet>
+          <title>Zwitter</title>
+          <link
+            rel="icon"
+            type="image/svg+xml"
+            href={`data:image/svg+xml;base64,${cartIconBase64}`}
+          />
+          <meta name="description" content="This is a description" />
+        </Helmet>
+        <RouterProvider router={router}></RouterProvider>
+      </MyContext.Provider>
+    </div>
   );
 }
 

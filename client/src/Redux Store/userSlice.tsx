@@ -4,6 +4,8 @@ const initialState = {
   currentUser: null,
   isLoading: false,
   error: false,
+  profileIdOfUsers: null,
+  followingId: null,
 };
 
 export const userSlicer = createSlice({
@@ -32,21 +34,10 @@ export const userSlicer = createSlice({
     following: (state, action) => {
       // @ts-ignore
 
-      if (state.currentUser.following.includes(action.payload)) {
-        // @ts-ignore
-
-        state.currentUser.following.splice(
-          // @ts-ignore
-
-          state.currentUser.following.findIndex((followingId) => {
-            followingId === action.payload;
-          })
-        );
-      } else {
-        // @ts-ignore
-
-        state.currentUser.following.push(action.payload);
-      }
+      state.currentUser.followingId = action.payload;
+    },
+    setUserProfileId: (state, action) => {
+      state.profileIdOfUsers = action.payload;
     },
   },
 });
@@ -58,6 +49,7 @@ export const {
   logout,
   changeProfile,
   following,
+  setUserProfileId,
 } = userSlicer.actions;
 
 export default userSlicer.reducer;

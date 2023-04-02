@@ -31,42 +31,50 @@ const TweetContainer = (props: {
     }).then((res) => {
       console.log(res);
       if (location.pathname.includes("profile")) {
-        const newData = HTTPMethods.get(`/tweets/user/all/${id}`);
-        //@ts-ignore
-        editTweet(newData).data;
+        HTTPMethods.get(`/tweets/user/all/${id}`)
+          .then((res) => {
+            editTweet(res.data);
+          })
+          .catch((err) => console.log(err));
       } else if (location.pathname.includes("explore")) {
-        const newData = HTTPMethods.get(`/tweets/explore`);
-        //@ts-ignore
-        editTweet(newData.data);
+        HTTPMethods.get(`/tweets/explore`)
+          .then((res) => {
+            editTweet(res.data);
+          })
+          .catch((err) => console.log(err));
       } else {
-        const newData = HTTPMethods.get(`/tweets/timeline/${currentUser._id}`);
-        //@ts-ignore
-        editTweet(newData.data);
-        //@ts-ignore
-        console.log("leorerieeirjeij", newData);
+        HTTPMethods.get(`/tweets/timeline/${currentUser._id}`)
+          .then((res) => {
+            editTweet(res.data);
+          })
+          .catch((err) => console.log(err));
       }
     });
   };
   return (
     <div
       key={idNumber}
-      className="cursor-pointer flex flex-row min-h-[7rem] h-auto  w-full py-2 px-2 gap-x-3 border-b-[1px] border-b-slate-200 justify-start items-start">
-      <div className="tweet-owner min-h-[5rem] h-auto flex flex-col justify-start items-center min-w-[5.5rem] overflow-hidden">
-        <Link
-          to={`/profile/${userData._id}`}
-          className={`w-full h-20 rounded-full`}
-          style={{
-            backgroundImage: `url(${profileImage})`,
-            backgroundSize: "cover",
-          }}
-        />
+      className="cursor-pointer flex flex-row min-h-[7rem] h-auto  w-full py-2 px-5 gap-x-0 border-b-[1px] border-b-slate-200  hover:bg-black/5 justify-start items-start">
+      <div className="tweet-owner min-h-[5rem] h-auto flex flex-col justify-start items-center min-w-[4.5rem] overflow-hidden">
+        {userData != undefined && (
+          <Link to={`/profile/${userData._id}`}>
+            <img
+              src={profileImage}
+              alt=""
+              className={`w-[3rem] h-[3rem] rounded-full mt-1`}
+            />
+          </Link>
+        )}
       </div>
       <div className="tweet-body flex flex-col gap-y-3">
-        <p className="flex flex-row justify-start items-center gap-1">
-          <span className="font-[500]"> {userData.username}</span>
-          <span className="text-black/70">@{userData.username}</span>
-          <span className="text-black/70 "> {datePosted}</span>
-        </p>
+        {userData != undefined && (
+          <p className="flex flex-row justify-start items-center gap-1">
+            <span className="font-[500]"> {userData.username}</span>
+            <span className="text-black/70">@{userData.username}</span>
+            <span className="text-black/70 "> {datePosted}</span>
+          </p>
+        )}
+
         <p className="tweetdescription pr-10 ">
           {tweet != undefined && tweet.description}
         </p>
@@ -79,21 +87,24 @@ const TweetContainer = (props: {
         )}
 
         <p
-          className={`group w-[30%] h-10 flex flex-row justify-start items-center px-2 gap-2.5 relative `}>
-          <div className="absolute left-[1px] top-[3px] group-hover:bg-red-200 w-8 h-8 rounded-full ">
+          className={`group w-[30%] h-10 flex flex-row justify-start items-center px-2 gap-2.5 relative `}
+          onClick={handleLike}>
+          <div className="absolute left-[1px] top-[3px] group-hover:bg-red-200 w-8 h-8 rounded-full z-[-1]">
             &nbsp;
           </div>
-          <button
-            className="font-bold text-black/70 group-hover:text-red-400 z-10"
-            onClick={handleLike}>
+          <button className="font-bold text-black/70 group-hover:text-red-400">
             {tweet != undefined && tweet.likes.includes(currentUser._id) ? (
-              <IoMdHeart size={18} className="text-red-500" />
+              <IoMdHeart
+                size={18}
+                className="text-red-500 group-hover:text-red-500"
+              />
             ) : (
-              <IoMdHeartEmpty size={18} />
+              <IoMdHeartEmpty size={18} className="group-hover:text-red-500" />
             )}
           </button>
           <span
             className={`${
+              tweet != undefined &&
               tweet.likes.length &&
               tweet.likes.includes(currentUser._id) &&
               "text-red-500"
