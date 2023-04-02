@@ -1,4 +1,4 @@
-MERN Twitter Clone App
+MERN Twitter Clone
 
 This is a Twitter clone app built using the MERN stack (MongoDB, Express.js, React.js, Node.js) and other technologies including Tailwind CSS, TypeScript, React Router DOM, React Icons, JWT verification, and features such as follow, like, and explore.
 
