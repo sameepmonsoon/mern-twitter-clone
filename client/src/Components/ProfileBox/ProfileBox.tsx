@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { HTTPMethods } from "../../Utils/HTTPMethods";
 import Modal from "../Modal/Modal";
 import { following } from "../../Redux Store/userSlice";
+import { TbCameraPlus } from "react-icons/tb";
 const ProfileBox = (props: {
   name: string;
   coverPhoto?: string;
@@ -17,28 +18,38 @@ const ProfileBox = (props: {
   const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
-  console.log(currentUser.following, id, followingId);
+  const [followData, setFollowData] = useState([]);
+  useEffect(() => {
+    HTTPMethods.get(`/users/find/${id}`)
+      .then((res) => {
+        console.log("from teh prooooo", res.data.followers);
+        setFollowData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   const handleFollow = () => {
     if (!currentUser.following.includes(id)) {
       HTTPMethods.put(`/users/follow/${id}`, {
         id: currentUser._id,
       }).then((res) => {
         dispatch(following(res.data));
-        console.log(res.data);
       });
     } else if (currentUser.following.includes(id)) {
       HTTPMethods.put(`/users/unfollow/${id}`, {
         id: currentUser._id,
       }).then((res) => {
         dispatch(following(res.data));
-        console.log("res", res.data);
       });
     }
   };
   return (
     <div className=" h-[30rem] w-full flex flex-col justify-start items-center">
-      <div className="cover-photo w-full h-[40%]  bg-center bg-no-repeat bg-contain flex flex-row">
-        Cover Photo
+      <div className="cover-photo w-full h-[40%] justify-center items-center flex flex-col bg-gray-300">
+        <span className="bg-black/50 text-white p-2 rounded-full w-10 h-10 hover:opacity-[0.91] cursor-pointer">
+          <TbCameraPlus size={25} />
+        </span>
       </div>
       <div className="profile-details w-full relative flex flex-col gap-y-2 border-y-[1px] border-y-slate-200 pb-4">
         <p className="profile-pic flex flex-row justify-between px-10 py-4 items-center w-full">

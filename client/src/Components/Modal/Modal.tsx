@@ -84,7 +84,6 @@ const Modal = (props: { setOpen: Dispatch<SetStateAction<any>> }) => {
   const handleClick = async () => {
     HTTPMethods.deleteUser(`/users/${currentUser._id}`)
       .then((res) => {
-        console.log(res);
         dispatch(logout());
         navigate("/signin");
       })
@@ -93,7 +92,7 @@ const Modal = (props: { setOpen: Dispatch<SetStateAction<any>> }) => {
       });
   };
   return (
-    <div className="absolute w-full h-full bg-black/20 flex items-center justify-center z-11 top-0">
+    <div className="absolute w-full h-full bg-black/20 flex items-center justify-center  z-[12] top-0">
       <div className="absolute w-[600px] h-[650px] bg-white rounded-xl flex flex-col gap-2 justify-start items-center overflow-hidden py-2 px-[2px]">
         <p className="w-full h-10 flex justify-between items-center px-2">
           <span className="w-[30%] h-full flex justify-between items-center">
@@ -123,7 +122,7 @@ const Modal = (props: { setOpen: Dispatch<SetStateAction<any>> }) => {
             htmlFor="imageUpload"
             className="absolute left-[1rem] bottom-[2.5rem] mb-[2.5rem] cursor-pointer">
             <span
-              className={`absolute rounded-full w-[120px] bg-red-200 h-[120px] border-4 border-white flex items-center justify-center`}>
+              className={`absolute rounded-full w-[120px] bg-white-200 h-[120px] border-4 border-white flex items-center justify-center`}>
               <>
                 <img
                   src={currentUser.profilePicture}

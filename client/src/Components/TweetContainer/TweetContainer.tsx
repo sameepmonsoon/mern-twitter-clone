@@ -29,7 +29,6 @@ const TweetContainer = (props: {
     await HTTPMethods.put(`/tweets/${tweet._id}/like`, {
       id: currentUser._id,
     }).then((res) => {
-      console.log(res);
       if (location.pathname.includes("profile")) {
         HTTPMethods.get(`/tweets/user/all/${id}`)
           .then((res) => {
@@ -55,7 +54,7 @@ const TweetContainer = (props: {
     <div
       key={idNumber}
       className="cursor-pointer flex flex-row min-h-[7rem] h-auto  w-full py-2 px-5 gap-x-0 border-b-[1px] border-b-slate-200  hover:bg-black/5 justify-start items-start">
-      <div className="tweet-owner min-h-[5rem] h-auto flex flex-col justify-start items-center min-w-[4.5rem] overflow-hidden">
+      {/* <div className="tweet-owner min-h-[5rem] h-auto flex flex-col justify-start items-center min-w-[4.5rem] overflow-hidden">
         {userData != undefined && (
           <Link to={`/profile/${userData._id}`}>
             <img
@@ -65,12 +64,15 @@ const TweetContainer = (props: {
             />
           </Link>
         )}
-      </div>
+      </div> */}
       <div className="tweet-body flex flex-col gap-y-3">
         {userData != undefined && (
           <p className="flex flex-row justify-start items-center gap-1">
-            <span className="font-[500]"> {userData.username}</span>
-            <span className="text-black/70">@{userData.username}</span>
+            <Link to={`/profile/${userData._id}`}>
+              <span className="font-[500]"> {userData.username}</span>
+              <span className="text-black/70">@{userData.username}</span> 
+            </Link>
+
             <span className="text-black/70 "> {datePosted}</span>
           </p>
         )}

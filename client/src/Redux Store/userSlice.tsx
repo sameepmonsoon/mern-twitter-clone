@@ -5,7 +5,7 @@ const initialState = {
   isLoading: false,
   error: false,
   profileIdOfUsers: null,
-  followingId: null,
+  followingId: [],
 };
 
 export const userSlicer = createSlice({
@@ -34,7 +34,7 @@ export const userSlicer = createSlice({
     following: (state, action) => {
       // @ts-ignore
 
-      state.currentUser.followingId = action.payload;
+      state.followingId = action.payload;
     },
     setUserProfileId: (state, action) => {
       state.profileIdOfUsers = action.payload;

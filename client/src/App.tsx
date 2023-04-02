@@ -19,7 +19,7 @@ export const MyContext = createContext<any>("default");
 function App() {
   const [siderState, setSiderState] = useState(false);
   useEffect(() => {
-    console.clear(); // clears console on mount
+    console.clear(); // clears console
   }, []);
 
   const StyledCartIcon = () => (
@@ -62,7 +62,7 @@ function App() {
     <div>
       <MyContext.Provider value={{ siderState, setSiderState }}>
         <Helmet>
-          <title>Zwitter</title>
+          <title>Twitter Clone</title>
           <link
             rel="icon"
             type="image/svg+xml"

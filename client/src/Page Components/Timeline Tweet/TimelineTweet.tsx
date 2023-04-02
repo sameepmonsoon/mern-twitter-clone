@@ -8,15 +8,12 @@ const TimelineTweet = () => {
   const { currentUser } = useSelector((state: any) => state.user);
   const { profileIdOfUsers } = useSelector((state: any) => state.user);
   let followingList = currentUser.following;
-  console.log(currentUser);
   const [userProfile, setUserProfile] = useState([]);
   const location = useLocation();
-  console.log("usr profile timeline",profileIdOfUsers);
   useEffect(() => {
     const fetchTweet = async () => {
       await HTTPMethods.get(`/tweets/timeline/${currentUser._id}`)
         .then((res) => {
-          console.log("in the response", res.data);
           setTimeLine(res.data);
         })
         .catch((err) => {
@@ -26,7 +23,6 @@ const TimelineTweet = () => {
       HTTPMethods.get(`/users/find/${profileIdOfUsers}`)
         .then((res) => {
           setUserProfile(res.data);
-          console.log("user profile", res.data);
         })
         .catch((err) => {
           console.log(err);

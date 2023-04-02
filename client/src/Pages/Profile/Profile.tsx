@@ -4,7 +4,7 @@ import LeftSider from "../../Page Components/LeftSider/LeftSider";
 import MainTweet from "../../Page Components/Main Tweet/MainTweet";
 import RightSider from "../../Page Components/RightSider/RightSider";
 import { useSelector, useDispatch } from "react-redux";
-import { setUserProfileId } from "../../Redux Store/userSlice";
+import { setUserProfileId, following } from "../../Redux Store/userSlice";
 import { useLocation, useParams } from "react-router-dom";
 import { HTTPMethods } from "../../Utils/HTTPMethods";
 import TweetContainer from "../../Components/TweetContainer/TweetContainer";
@@ -27,7 +27,7 @@ const Profile = () => {
       .then((res) => {
         setUserProfile(res.data);
         dispatch(setUserProfileId(res.data._id));
-        console.log("user profile", res.data._id);
+        dispatch(following(res.data));
       })
       .catch((err) => {
         console.log(err);
@@ -38,7 +38,7 @@ const Profile = () => {
       <div className="ml-auto">
         <LeftSider />
       </div>
-      <div className="py-2 col-span-2 flex flex-col border-x-[1px] border-slate-200 border-t-[1px] border-t-slate-200 md:min-w-[55vh] w-full ">
+      <div className="pb-2 col-span-2 flex flex-col border-x-[1px] border-slate-200 border-t-[1px] border-t-slate-200 md:min-w-[55vh] w-full ">
         <>
           <ProfileBox
             // @ts-ignore
