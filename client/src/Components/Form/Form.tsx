@@ -129,7 +129,7 @@ const Form = () => {
           onClick={(e) => {
             e.preventDefault();
             formik.handleSubmit();
-            setIsSignIn(false);
+             setIsSignIn(false);
           }}>
           {isLoading ? (
             <span className="animate-spin flex justify-center items-center">
@@ -149,7 +149,7 @@ const Form = () => {
           }}
           className="ml-2 text-blue-600 hover:text-blue-500 underline">
           Sign Up
-        </button>{" "}
+        </button>
       </p>
       {isSignIn && (
         <form className="flex flex-col justify-start items-center rounded-lg py-5 gap-y-8  w-[30rem] absolute bg-white">
